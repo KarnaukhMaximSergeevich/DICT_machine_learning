@@ -21,14 +21,15 @@ class equation_of_a_line:
     def coefficient(self):
         """search for odds"""
 
-        self.a = self.list_of_dot[2] - self.list_of_dot[0]
-        self.b = -(self.list_of_dot[3] - self.list_of_dot[1])
+        self.a = -(self.list_of_dot[1] - self.list_of_dot[3])
+        self.b = -(self.list_of_dot[2] - self.list_of_dot[0])
         self.const()
 
     def const(self):
         """search const"""
 
-        c = self.list_of_dot[0] + self.a * self.list_of_dot[2] + self.b
+        global sign
+        c = self.list_of_dot[0] * self.list_of_dot[3] - self.list_of_dot[2] * self.list_of_dot[1]
         if self.b < 0:
             sign = "-"
         elif self.b >= 0:
