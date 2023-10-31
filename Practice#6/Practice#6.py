@@ -12,7 +12,6 @@ class gradient_descent:
     def gradient_descent_manual(self):
         """Gradient descent manual"""
 
-
         N = len(self.X)
 
         W1 = 0
@@ -29,27 +28,32 @@ class gradient_descent:
         def W1_grad():
             """Gradient W1"""
 
-            W1_gradient = np.sum((self.y - y_pred) * (-self.X)) * (2 / N)
+            W1_gradient = np.sum((self.y - y_pred) * (-self.X[:, 0])) * (2 / N)
             return W1_gradient
+
         def W0_grad():
             """Gradient W0"""
 
             W0_gradient = np.sum((self.y - y_pred) * (-1)) * (2 / N)
             return W0_gradient
 
+        next_W1 = W1
+        next_W0 = W0
+
         for iteration in range(n_iteration):
-            y_pred = W1 * self.X + W0
+            cur_W1 = next_W1
+            cur_W0 = next_W0
 
-            new_W1 = W1 - learning_rate * W1_grad()
-            new_W0 = W0 - learning_rate * W0_grad()
+            y_pred = cur_W1 * self.X[:, 0] + cur_W0
 
-            if abs(new_W1 - W1) < min_weight_change and abs(new_W0 - W0) < min_weight_change:
+            next_W1 = cur_W1 - learning_rate * W1_grad()
+            next_W0 = cur_W0 - learning_rate * W0_grad()
+
+            if abs(cur_W1 - next_W1) <= min_weight_change and (abs(cur_W0 - next_W0) <= min_weight_change):
                 break
 
-            W1 = new_W1
-            W0 = new_W0
+        print(f"Manual\nW1(coef) = {cur_W1}\nW0(intercept) = {cur_W0}")
 
-        print(f"Manual\nW1(coef) = {W1}\nW0(intercept) = {W0}")
     def gradient_descent_encapsulated(self):
         """Gradient descent encapsulated"""
 
